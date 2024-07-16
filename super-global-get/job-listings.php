@@ -40,7 +40,7 @@ $listings = [
     'location' => 'New York',
     'tags' => []
   ],
-];
+]; 
 
 function formatSalary($salary)
 {
@@ -68,6 +68,16 @@ function calculateAverageSalary($listings)
 
   return formatSalary($averageSalary);
 }
+if (isset($_GET['search'])) {
+  $searchTerm = $_GET['search'];
+  $filteredListings = array_filter($listings, function ($job) use ($searchTerm) {
+    return stripos($job['title'], $searchTerm) !== false || stripos($job['description'], $searchTerm) !== false || strcmp($searchTerm, $job['location']) === 0 || in_array($searchTerm, $job['tags']);
+  });
+  $listings = $filteredListings;
+}
+
+
+
 ?>
 
 
@@ -88,13 +98,13 @@ function calculateAverageSalary($listings)
     </div>
   </header>
   <div class="container mx-auto p-4 mt-4">
-    <div class="bg-green-100 rounded-lg shadow-md p-6 my-6">
+    <div class="bg-green-100 rounded-md shadow-md p-6 my-6">
       <h2 class="text-2xl font-semibold mb-4">Average Salary: <?= calculateAverageSalary($listings)  ?></h2>
     </div>
     <!-- Output -->
     <?php foreach ($listings as $index => $job) : ?>
       <div class="md my-4">
-        <div class="rounded-lg shadow-md <?= $index % 2 === 0 ? 'bg-blue-100' : 'bg-white'; ?>">
+        <div class="rounded-lg shadow-md <?= $index % 2 === 0 ? 'bg-blue-100' : 'bg-pink-100'; ?>">
           <div class="p-4">
             <h2 class="text-xl font-semibold"><?= $job['title'] ?></h2>
             <p class="text-gray-700 text-lg mt-2"><?= $job['description'] ?></p>

@@ -1,3 +1,24 @@
+<?php
+
+   if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    $title = htmlspecialchars($_POST['title'] ?? '');
+    $description = htmlspecialchars($_POST['description'] ?? '');
+    $listings[] = [
+      'title' => $title,
+      'description' => $description,
+    ];
+
+    echo '<h2 class="bg-green-100 text-green-700 p-6 m-6 rounded-md shadow-md">Submitted Job Listing</h2>';
+    echo '<ul class="bg-blue-100 p-6 m-6 rounded-md shadow-md">';
+    echo '<li><strong>Title:</strong> ' . $title . '</li>';
+    echo '<li><strong>Description:</strong> ' . $description . '</li>';
+    echo '</ul>';
+
+  }
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
