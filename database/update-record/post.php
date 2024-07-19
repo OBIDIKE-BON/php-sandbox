@@ -32,20 +32,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <h1 class="text-3xl font-semibold">My Blog</h1>
     </div>
   </header>
-  <div class="container mx-auto p-4 mt-4">
+  <div class="container mx-auto p-4 mt-4 w-full max-w-md">
     <div class="md my-4">
-      <div class="rounded-lg shadow-md flex justify-between">
+      <div class="rounded-lg shadow-md">
         <div class="p-4">
           <h2 class="text-xl font-semibold"><?= $post['title'] ?> </h2>
-          <p class="text-gray-700 text-lg mt-2 mb-5"><?=$post['body'] ?></p>
+          <p class="text-gray-700 text-lg mt-2 mb-5"><?= $post['body'] ?></p>
           <a href="index.php">Go Back</a>
         </div>
-        <div class="p-4 mt-8 shrink-0">
-          <form method="post" action="delete.php">
-            <button name="submit" value="<?= $post['id'] ?>" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none" >Delete</button>
-          </form>
-        </div>
       </div>
+    </div>
+    <div class="p-4 gap-4 flex items-center justify-center">
+      <a href="edit.php?id=<?= $post['id'] ?>" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none">Update</a>
+      <form method="post" action="delete.php">
+        <button name="submit" value="<?= $post['id'] ?>" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none">Delete</button>
+      </form>
     </div>
   </div>
 </body>

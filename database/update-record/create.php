@@ -23,7 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     }
     echo $title, $body;
   } catch (Exception $e) {
-    echo "<script> alert('An error ocoured {$e->getMessage()}');</script>";
+    error_log($e->getMessage());
+    echo "<script> alert('An error ocoured');</script>";
   }
 }
 

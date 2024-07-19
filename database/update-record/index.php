@@ -37,9 +37,10 @@ $posts = $stmt->fetchAll();
             <h2 class="text-xl font-semibold"><?= $post['title']; ?></h2>
             <p class="text-gray-700 text-lg mt-2"><?= $post['body']; ?></p>
           </div>
-          <div class="p-4 mt-8 shrink-0">
+          <div class="items-center p-4 shrink-0">
+            <a href="edit.php?id=<?= $post['id'] ?>" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none">Update</a>
             <form method="post" action="delete.php">
-              <button name="submit" value="<?= $post['id'] ?>" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none">Delete</button>
+              <button name="submit" value="<?= $post['id'] ?>" class="bg-red-500 mt-4 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none">Delete</button>
             </form>
           </div>
         </div>

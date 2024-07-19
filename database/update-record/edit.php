@@ -1,3 +1,51 @@
+<?php
+
+require_once 'database.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+  $title = htmlspecialchars($_POST['title']);
+  $body = htmlspecialchars($_POST['body']);
+  $id = htmlspecialchars($_POST['submit']);
+
+  $sql = 'UPDATE posts SET title = :title , body = :body WHERE id = :id';
+
+  try {
+    $stmt = $pdo->prepare($sql);
+
+    $params = [
+      'title' => $title,
+      'body' => $body,
+      'id' => $id
+    ];
+
+    if ($stmt->execute($params)) {
+      header('location: index.php');
+      exit;
+    } else {
+      echo "<script> alert('An error ocoured');</script>";
+    }
+    echo $title, $body;
+  } catch (Exception $e) {
+    error_log($e->getMessage());
+    echo "<script> alert('An error ocoured');</script>";
+  }
+} else if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
+
+  $stmt = $pdo->prepare('SELECT * FROM posts WHERE id = :id');
+  $id = htmlspecialchars($_GET['id']);
+
+  $arguments = ['id' => $id];
+  $stmt->execute($arguments);
+
+  $post = $stmt->fetch();
+
+} else {
+  header('Location: index.php');
+  exit;
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,14 +68,14 @@
       <form method="post">
         <div class="mb-4">
           <label for="title" class="block text-gray-700 font-medium">Title</label>
-          <input type="text" id="title" name="title" placeholder="Enter post title" class="w-full px-4 py-2 border rounded focus:ring focus:ring-blue-300 focus:outline-none">
+          <input type="text" id="title" name="title" value="<?= $post['title'] ?? '' ?>" placeholder="Enter post title" class="w-full px-4 py-2 border rounded focus:ring focus:ring-blue-300 focus:outline-none">
         </div>
         <div class="mb-6">
           <label for="body" class="block text-gray-700 font-medium">Body</label>
-          <textarea id="body" name="body" placeholder="Enter post body" class="w-full px-4 py-2 border rounded focus:ring focus:ring-blue-300 focus:outline-none"></textarea>
+          <textarea id="body" name="body" placeholder="Enter post body" class="w-full px-4 py-2 border rounded focus:ring focus:ring-blue-300 focus:outline-none"><?= $post['body'] ?? '' ?></textarea>
         </div>
         <div class="flex items-center justify-between">
-          <button type="submit" name="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none">
+          <button type="submit" name="submit" value="<?= $post['id'] ?? '' ?>" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none">
             Submit
           </button>
           <a href="index.php" class="text-blue-500 hover:underline">Back to Posts</a>
